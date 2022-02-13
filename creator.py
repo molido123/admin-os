@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import pymysql
 
 conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
@@ -9,9 +10,9 @@ cursor=conn.cursor()
 create_a_database="""CREATE TABLE student_view (
 		studentId char(8) PRIMARY KEY ,
 		name varchar(20) NOT NULL,
-        departments varchar(20) not NULL,
-        major varchar(20) not NULL,
-        address varchar(20) not NULL,
+        departments varchar(30) not NULL,
+        major varchar(50) not NULL,
+        address varchar(50) not NULL,
         phone varchar(15) not NULL UNIQUE
         
 		)ENGINE=innoDB DEFAULT CHARSET=utf8;"""

@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 from cmath import e
 import json
 from logging import exception
