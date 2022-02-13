@@ -27,7 +27,7 @@ def delete(student_Id):
         print(e)
         return {"code":400, "data":None,"message":"请求失败"}
 
-@app.route('/admin/query',methods=["post"])
+@app.route('/admin/query',methods=["post"])#查询
 def query():
     dict=request.get_json()
     id=dict.get("studentId",0)
@@ -47,7 +47,7 @@ def query():
             print(e)
             return {"code":400, "data":None,"message":"请求失败"}
 
-@app.route('/admin/getall',methods=["post"])
+@app.route('/admin/getall',methods=["post"])#获取全部
 def all():
     try:
         conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
@@ -67,7 +67,7 @@ def all():
         print(e)
         return {"code":400, "data":None,"message":"请求失败"}
 
-@app.route('/admin/modify',methods=["post"])
+@app.route('/admin/modify',methods=["post"])###修改，未完工,整体思路没问题，sql语法不知道哪错了
 def modify():
     try:
         dict=request.get_json()
@@ -79,7 +79,8 @@ def modify():
         print(major)
         address=dict.get("address",0)
         phone=dict.get("phone",0)
-        sql="update student_view set studentId='%s' name='%s' departments='%s' major='%s' address='%s' phone='%s' where studentId='%s';"%(id,name,departments,major,address,phone,id)   
+        sql="update student_view set studentId='%s',name='%s',departments='%s',major='%s',address='%s',phone='%s' where studentId='%s';"%(id,name,departments,major,address,phone,id)   
+        print(sql)
         conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
         cursor=conn.cursor()
         cursor.execute(sql)
@@ -90,12 +91,6 @@ def modify():
     except Exception as e:
         print(e)
         return {"code":400, "data":None,"message":"请求失败"}
-
-
-
-
-
-
 
 
 
