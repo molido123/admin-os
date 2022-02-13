@@ -15,7 +15,7 @@ def delete(student_Id):
     
     try:     
         if student_Id.isdigit():##检测学号是否为数字
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
             cursor=conn.cursor()
             sql="delete from student_view where studentId=%s;"%(student_Id)
             cursor.execute(sql)
@@ -34,7 +34,7 @@ def query():
     print(id)
     if id.isdigit():
         try:    
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
             cursor=conn.cursor()
             sql="select * from student_view where studentId=%s"%(id)
             cursor.execute(sql)
@@ -50,7 +50,7 @@ def query():
 @app.route('/admin/getall',methods=["post"])#获取全部
 def all():
     try:
-        conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
+        conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
         cursor=conn.cursor()
         cursor.execute("select * from student_view;")
         result=cursor.fetchall()
@@ -81,7 +81,7 @@ def modify():
         phone=dict.get("phone",0)
         sql="update student_view set studentId='%s',name='%s',departments='%s',major='%s',address='%s',phone='%s' where studentId='%s';"%(id,name,departments,major,address,phone,id)   
         print(sql)
-        conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
+        conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
         cursor=conn.cursor()
         cursor.execute(sql)
         conn.commit()
