@@ -22,10 +22,10 @@ def delete(student_Id):
             conn.commit()
             cursor.close()
             conn.close()
-            return {"code": 200, "data": None, "message": "成功" }
+            return {"code": 200, "data": None, "message": "成功" },200,[("Access-Control-Allow-Origin","*")]
     except Exception as e:
         print(e)
-        return {"code":400, "data":None,"message":"请求失败"}
+        return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*")]
 
 @app.route('/admin/query',methods=["post"])#查询
 def query():
@@ -42,10 +42,11 @@ def query():
             cursor.close()
             conn.close()
             re_dict={"studentId":result[0],"name":result[1],"departments":result[2],"major":result[3],"address":result[4],"phone":result[5]}
-            return re_dict
+            return re_dict,200,[("Access-Control-Allow-Origin","*")]
         except Exception as e:
             print(e)
-            return {"code":400, "data":None,"message":"请求失败"}
+            return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*")]
+
 
 @app.route('/admin/getall',methods=["post"])#获取全部
 def all():
@@ -61,11 +62,11 @@ def all():
         for i in result:
             re_dict={"studentId":i[0],"name":i[1],"departments":i[2],"major":i[3],"address":i[4],"phone":i[5]}
             re_list.append(re_dict)
-        return json.dumps(re_list,ensure_ascii=False)
+        return json.dumps(re_list,ensure_ascii=False),200,[("Access-Control-Allow-Origin","*")]
 
     except Exception as e:
         print(e)
-        return {"code":400, "data":None,"message":"请求失败"}
+        return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*")]
 
 @app.route('/admin/modify',methods=["post"])###修改，未完工,整体思路没问题，sql语法不知道哪错了
 def modify():
@@ -87,10 +88,10 @@ def modify():
         conn.commit()
         cursor.close()
         conn.close()
-        return  {"code": 200, "data":"upgraded", "message": "成功" }
+        return  {"code": 200, "data":"upgraded", "message": "成功" },200,[("Access-Control-Allow-Origin","*")]
     except Exception as e:
         print(e)
-        return {"code":400, "data":None,"message":"请求失败"}
+        return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*")]
 
 
 
