@@ -5,7 +5,7 @@ conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd=
 cursor=conn.cursor()
 
 
-##sql2="""INSERT INTO student_view values ('02210621','huagenda','计算机学院','计算机科学','反斗花园','18361457436');"""
+##sql2="""INSERT INTO student_view values ('02210621','华根达','计算机魔法学院','计算神秘学','幻想乡','18361457436');"""
 
 create_a_database="""CREATE TABLE student_view (
 		studentId char(8) PRIMARY KEY ,
