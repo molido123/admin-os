@@ -4,13 +4,14 @@ import json
 from logging import exception
 from sqlite3 import SQLITE_OK
 from unittest import result
-from flask import Flask, request ,jsonify
+from flask import Flask, request ,jsonify,make_response
 import pymysql
-from sqlalchemy import delete
+from flask_cors import CORS
 app=Flask(__name__)
+CORS(app)
 
 
-@app.route('/admin/del/<student_Id>',methods=["delete"])##删除功能
+@app.route('/admin/del/<student_Id>',methods=["post"])##删除功能
 def delete(student_Id):
     
     try:     
@@ -42,7 +43,13 @@ def query():
             cursor.close()
             conn.close()
             re_dict={"studentId":result[0],"name":result[1],"departments":result[2],"major":result[3],"address":result[4],"phone":result[5]}
-            return re_dict,200,[("Access-Control-Allow-Origin","*")]
+            res=make_response(re_dict)
+            res.status = '200' # 设置状态码
+            res.headers["Content-type"]="application/json"
+            res.headers["Access-Control-Allow-Origin"]="*"
+            res.headers["Access-Control-Allow-Methods"]="POST"
+            res.headers["Access-Control-Allow-Headers"]="x-requested-with,content-type"
+            return res
         except Exception as e:
             print(e)
             return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*")]
@@ -68,7 +75,7 @@ def all():
         print(e)
         return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*")]
 
-@app.route('/admin/modify',methods=["post"])###修改，未完工,整体思路没问题，sql语法不知道哪错了
+@app.route('/admin/modify',methods=["post"])###修改
 def modify():
     try:
         dict=request.get_json()
@@ -88,7 +95,14 @@ def modify():
         conn.commit()
         cursor.close()
         conn.close()
-        return  {"code": 200, "data":"upgraded", "message": "成功" },200,[("Access-Control-Allow-Origin","*")]
+        state={"code": 200, "data":"upgraded", "message": "成功" }
+        res=make_response(state)
+        res.status="200"
+        res.headers["Content-type"]="application/json"
+        res.headers["Access-Control-Allow-Origin"]="*"
+        res.headers["Access-Control-Allow-Methods"]="POST"
+        res.headers["Access-Control-Allow-Headers"]="x-requested-with,content-type"
+        return  res
     except Exception as e:
         print(e)
         return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*")]
