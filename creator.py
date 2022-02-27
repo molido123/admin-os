@@ -1,13 +1,17 @@
 #!/usr/bin/python
+from msilib.schema import AdminExecuteSequence
+import sqlite3
 from unittest import result
 import pymysql
 
-conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
+conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
 cursor=conn.cursor()
 
 
 ##sql2="""INSERT INTO student_view values ('02210621','华根达','计算机魔法学院','计算神秘学','幻想乡','18361457436');"""
-sql5="""SELECT password FROM user WHERE name="华根达";"""
+#sql5="""SELECT name FROM user WHERE name="333";"""
+sql5="update user set identity='admin' where studentId='02210621';"
+sql6="update user set identity='admin' where studentId='08213101';"
 create_a_database="""CREATE TABLE student_view (
 		studentId char(8) PRIMARY KEY,
 		name varchar(20) NOT NULL,
@@ -27,13 +31,11 @@ create_user_database="""
 
 
 
-#cursor.execute(create_a_database)
-#cursor.execute(create_user_database)
+cursor.execute(create_a_database)
+cursor.execute(create_user_database)
 cursor.execute(sql5)
-result=cursor.fetchone()
-print(result[0])
-##cursor.execute(sql2)
-conn.commit
-cursor.close
-conn.close
+cursor.execute(sql6)
+conn.commit()
+cursor.close()
+conn.close()
 

@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import time
 import json
 import base64
@@ -6,7 +7,7 @@ import hmac
 
 
 class jwt212:
-    def login_create_token(name,password,identity):#登陆时用，分配token。用于检验信息正确之后，此函数无检验功能
+    def login_create_token(studentId,password,identity):#登陆时用，分配token。用于检验信息正确之后，此函数无检验功能
         exp = 14400#10天后过期，需再次登录。
 
 
@@ -16,7 +17,7 @@ class jwt212:
         }
 
         payload = {
-        "name": name,
+        "studentId":studentId ,
         "identity":identity
         }
 
@@ -72,3 +73,7 @@ class jwt212:
             payload_data = base64.urlsafe_b64decode(payload)  # 解码
             data = json.loads(payload_data)  # 将已编码的JSON字符串解码为Python对象，即将payload转为可以通过get方法获取里面的值
             return data  # 返回payload的数据
+
+
+
+ 
