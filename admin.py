@@ -2,19 +2,19 @@
 from cmath import e
 import json
 from logging import exception
-from sqlite3 import SQLITE_OK
-from unittest import result
 from flask import Flask, request ,jsonify,make_response
 import pymysql
+from flask_cors import CORS
 app=Flask(__name__)
+CORS(app)
 
 
-@app.route('/admin/del/<student_Id>',methods=["delete"])##删除功能
+@app.route('/admin/del/<student_Id>',methods=["post"])##删除功能
 def delete(student_Id):
     
     try:     
         if student_Id.isdigit():##检测学号是否为数字
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
             cursor=conn.cursor()
             sql="delete from student_view where studentId=%s;"%(student_Id)
             cursor.execute(sql)
@@ -33,7 +33,7 @@ def query():
     print(id)
     if id.isdigit():
         try:    
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
             cursor=conn.cursor()
             sql="select * from student_view where studentId=%s"%(id)
             cursor.execute(sql)
@@ -53,7 +53,7 @@ def query():
 @app.route('/admin/getall',methods=["post"])#获取全部
 def all():
     try:
-        conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
+        conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
         cursor=conn.cursor()
         cursor.execute("select * from student_view;")
         result=cursor.fetchall()
@@ -84,7 +84,7 @@ def modify():
         phone=dict.get("phone",0)
         sql="update student_view set studentId='%s',name='%s',departments='%s',major='%s',address='%s',phone='%s' where studentId='%s';"%(id,name,departments,major,address,phone,id)   
         print(sql)
-        conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
+        conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
         cursor=conn.cursor()
         cursor.execute(sql)
         conn.commit()
@@ -93,7 +93,10 @@ def modify():
         state={"code": 200, "data":"upgraded", "message": "成功" }
         res=make_response(state)
         res.status="200"
-        res.headers["Access-Control-Allow-Origin"]="*"        
+        res.headers["Content-type"]="application/json"
+        res.headers["Access-Control-Allow-Origin"]="*"
+        res.headers["Access-Control-Allow-Methods"]="POST"
+        res.headers["Access-Control-Allow-Headers"]="x-requested-with,content-type"
         return  res
     except Exception as e:
         print(e)
@@ -104,4 +107,4 @@ def modify():
 
 
 if __name__=="__main__":
-    app.run(host="0.0.0.0")
+    app.run()
