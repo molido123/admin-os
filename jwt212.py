@@ -5,7 +5,7 @@ import hashlib
 import hmac
 
 
-class jwt212():
+class jwt212:
     def login_create_token(name,password,identity):#登陆时用，分配token。用于检验信息正确之后，此函数无检验功能
         exp = 14400#10天后过期，需再次登录。
 
