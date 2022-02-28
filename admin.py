@@ -75,7 +75,8 @@ def query():
                 cursor.close()
                 conn.close()
                 re_dict={"studentId":result[0],"name":result[1],"departments":result[2],"major":result[3],"address":result[4],"phone":result[5]}
-                res=make_response(re_dict)
+                dicts={"code":200,"data":re_dict,"message":"success"}
+                res=make_response(dicts)
                 res.status = '200' # 设置状态码
                 res.headers["Access-Control-Allow-Origin"]="*"
                 res.headers["Access-Control-Allow-Headers"]="Authorization"
@@ -119,7 +120,8 @@ def all():
             for i in result:
                 re_dict={"studentId":i[0],"name":i[1],"departments":i[2],"major":i[3],"address":i[4],"phone":i[5]}
                 re_list.append(re_dict)
-            return json.dumps(re_list,ensure_ascii=False),200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+            data=re_list
+            return {"code":200,"data":data,"message":"success"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
         except Exception as e:
             print(e)
