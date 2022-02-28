@@ -9,7 +9,7 @@ CORS(app,supports_credentials=True)
 jwt_all=jwt212.jwt212
 
 
-@app.route('/admin/del/<student_Id>',methods=["post"])##删除功能
+@app.route('/admin/del/<student_Id>',methods=["get"])##删除功能
 def delete(student_Id):    
     ################################
     token=request.headers.get('Authorization')#获取请求头中的token
@@ -42,7 +42,7 @@ def delete(student_Id):
             return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
     ###########################################################################################################
     else:
-        return {"code":401,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":401,"data":None,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
 @app.route('/admin/query',methods=["post"])#查询
@@ -85,10 +85,10 @@ def query():
                 return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
  ######################################################################################################################   
     else:
-        return {"code":401,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":401,"data":None,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
-@app.route('/admin/getall',methods=["post"])#获取全部
+@app.route('/admin/getall',methods=["get"])#获取全部
 def all():
 #########################################################################################    
     token=request.headers.get('Authorization')#获取请求头中的token
@@ -126,7 +126,7 @@ def all():
             return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 ##################################################################################################################
     else:
-        return {"code":401,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":401,"data":None,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
 
@@ -208,7 +208,7 @@ def register():
         conn.close()
         print(name)
         if name==None:#学号不存在
-            state={"code":1004,"message":"用户不存在，请检查学号"}
+            state={"code":1004,"data":None,"message":"用户不存在，请检查学号"}
             print(state)
             res=make_response(state)
             res.headers["Access-Control-Allow-Origin"]="*"
@@ -238,7 +238,7 @@ def register():
             return res
 
         else:
-            state={"code":1001,"message":"此学号已经注册了"}
+            state={"code":1001,"data":None,"message":"此学号已经注册了"}
             res=make_response(state)
             res.headers["Access-Control-Allow-Origin"]="*"
             res.headers["Access-Control-Allow-Headers"]="Authorization"
