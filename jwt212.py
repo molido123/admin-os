@@ -35,6 +35,8 @@ class jwt212:
     
 
     def token_check(token,password):##一定要提供密码
+        token_header=token.split()[0]
+        token=token.split()[1]
         headers_check = token.split(".")[0]#头部
         payload_check = token.split(".")[1]#内容
         sign_check = token.split(".")[2]#签名
@@ -54,7 +56,7 @@ class jwt212:
         
         time_past=int(data.get("exp"))#获取过期时间
         time_right_now=int(time.time()) #获取现在时间
-        if sign_check==new_sign and time_right_now<=time_past:#检查签名合法和时间
+        if sign_check==new_sign and time_right_now<=time_past and token_header=="Bearer":#检查签名合法和时间
             return True
         else:
             return False
@@ -73,6 +75,7 @@ class jwt212:
             payload_data = base64.urlsafe_b64decode(payload)  # 解码
             data = json.loads(payload_data)  # 将已编码的JSON字符串解码为Python对象，即将payload转为可以通过get方法获取里面的值
             return data  # 返回payload的数据
+
 
 
 
