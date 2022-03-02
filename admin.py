@@ -1,6 +1,5 @@
 #!/usr/bin/python
-import json
-from flask import Flask, request ,jsonify,make_response
+from flask import Flask, request ,make_response
 import pymysql
 from flask_cors import CORS
 import jwt212 
@@ -9,10 +8,9 @@ CORS(app,supports_credentials=True)
 jwt_all=jwt212.jwt212
 
 
-@app.route('/admin/del/<student_Id>',methods=["get"])##删除功能
-def delete(student_Id):    
-    ################################
-    token=request.headers.get('Authorization')#获取请求头中的token
+
+
+def check_token(token):
     data=jwt_all.token_query(token)#获取token中的payload
     id=data.get("studentId")
     sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)
@@ -23,9 +21,19 @@ def delete(student_Id):
     password=cursor.fetchone()[0]##获取到密码
     cursor.close()
     conn.close()
-     
-    
     if jwt_all.token_check(token,password)==True and data.get("identity")=="admin":##确保签名正确且权限为admin
+        return True
+    else:
+        return False
+
+
+
+
+@app.route('/admin/del/<student_Id>',methods=["get"])##删除功能
+def delete(student_Id):    
+    ################################
+    token=request.headers.get('Authorization')#获取请求头中的token
+    if check_token(token)==True:
     ###############################################检验token的合法性##########################################################
         try:     
             if student_Id.isdigit():##检测学号是否为数字
@@ -49,18 +57,7 @@ def delete(student_Id):
 def query():
 ##########################################################################################    
     token=request.headers.get('Authorization')#获取请求头中的token
-    data=jwt_all.token_query(token)#获取token中的payload
-    id=data.get("studentId")
-    sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)
-   
-    conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
-    cursor=conn.cursor()
-    cursor.execute(sql_check)
-    password=cursor.fetchone()[0]##获取到密码
-    cursor.close()
-    conn.close()
-     
-    if jwt_all.token_check(token,password)==True and data.get("identity")=="admin":##确保签名正确且权限为admin
+    if check_token(token)==True:
 #########################################################################################    
         dict=request.get_json()
         id=dict.get("studentId",0)
@@ -74,7 +71,7 @@ def query():
                 result=cursor.fetchone()
                 cursor.close()
                 conn.close()
-                re_dict={"studentId":result[0],"name":result[1],"departments":result[2],"major":result[3],"address":result[4],"phone":result[5]}
+                re_dict={"studentId":result[0],"name":result[1],"departments":result[2],"major":result[3],"address":result[4],"phone":result[5],"sex":result[6],"avatar":result[7]}
                 dicts={"code":200,"data":re_dict,"message":"success"}
                 res=make_response(dicts)
                 res.status = '200' # 设置状态码
@@ -93,20 +90,7 @@ def query():
 def all():
 #########################################################################################    
     token=request.headers.get('Authorization')#获取请求头中的token
-    data=jwt_all.token_query(token)#获取token中的payload
-    
-    id=data.get("studentId")
-    
-    sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)
-   
-    conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
-    cursor=conn.cursor()
-    cursor.execute(sql_check)
-    password=cursor.fetchone()[0]##获取到密码
-    cursor.close()
-    conn.close()
-     
-    if jwt_all.token_check(token,password)==True and data.get("identity")=="admin":##确保签名正确且权限为admin    
+    if check_token(token)==True: 
 ############################################################################################        
         try:
             conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
@@ -136,20 +120,7 @@ def all():
 def modify():
 #############################################################################
     token=request.headers.get('Authorization')#获取请求头中的token
-    data=jwt_all.token_query(token)#获取token中的payload
-    
-    id=data.get("studentId")
-    
-    sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)
-   
-    conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
-    cursor=conn.cursor()
-    cursor.execute(sql_check)
-    password=cursor.fetchone()[0]##获取到密码
-    cursor.close()
-    conn.close()
-     
-    if jwt_all.token_check(token,password)==True and data.get("identity")=="admin":##确保签名正确且权限为admin  
+    if check_token(token)==True:
 
 #########################################################################
         try:

@@ -18,7 +18,9 @@ create_a_database="""CREATE TABLE student_view (
         departments varchar(30) not NULL,
         major varchar(50) not NULL,
         address varchar(50) not NULL,
-        phone varchar(15) not NULL UNIQUE
+        phone varchar(15) not NULL UNIQUE,
+        sex varchar(4),
+        avatar varchar(50) 
 		)ENGINE=innoDB DEFAULT CHARSET=utf8;"""
 create_user_database="""
         CREATE TABLE user (
@@ -33,8 +35,8 @@ create_user_database="""
 
 cursor.execute(create_a_database)
 cursor.execute(create_user_database)
-cursor.execute(sql5)
-cursor.execute(sql6)
+#cursor.execute(sql5)
+#cursor.execute(sql6)
 conn.commit()
 cursor.close()
 conn.close()
