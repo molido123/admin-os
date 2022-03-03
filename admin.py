@@ -50,7 +50,7 @@ def delete(student_Id):
             return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
     ###########################################################################################################
     else:
-        return {"code":401,"data":None,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":401,"data":None,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
 @app.route('/admin/query',methods=["post"])#查询
@@ -83,7 +83,7 @@ def query():
                 return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
  ######################################################################################################################   
     else:
-        return {"code":401,"data":None,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":401,"data":None,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
 @app.route('/admin/getall',methods=["get"])#获取全部
@@ -112,7 +112,7 @@ def all():
             return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 ##################################################################################################################
     else:
-        return {"code":401,"data":None,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":401,"data":None,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
 
@@ -152,7 +152,7 @@ def modify():
             return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 #################################################################################################################
     else:
-        return {"code":401,"message":"Not enough clearance"},401,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":401,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 @app.route('/user/register',methods=['post'])
 def register():
@@ -261,7 +261,7 @@ def login():
             res.headers["Access-Control-Allow-Headers"]="Authorization"
             return res
         else:
-            return {"code":1005, "data":None,"message":"密码错误或用户不存在"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+            return {"code":1005, "data":None,"message":"密码错误或用户不存在"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
 
