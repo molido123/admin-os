@@ -15,7 +15,7 @@ def check_token(token):
     id=data.get("studentId")
     sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)
    
-    conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+    conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
     cursor=conn.cursor()
     cursor.execute(sql_check)
     password=cursor.fetchone()[0]##获取到密码
@@ -37,7 +37,7 @@ def delete(student_Id):
     ###############################################检验token的合法性##########################################################
         try:     
             if student_Id.isdigit():##检测学号是否为数字
-                conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+                conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
                 cursor=conn.cursor()
                 sql="delete from student_view where studentId=%s;"%(student_Id)
                 cursor.execute(sql)
@@ -64,7 +64,7 @@ def query():
         print(id)
         if id.isdigit():
             try:    
-                conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+                conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
                 cursor=conn.cursor()
                 sql="select * from student_view where studentId=%s"%(id)
                 cursor.execute(sql)
@@ -93,7 +93,7 @@ def all():
     if check_token(token)==True: 
 ############################################################################################        
         try:
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
             cursor=conn.cursor()
             cursor.execute("select * from student_view;")
             result=cursor.fetchall()
@@ -135,7 +135,7 @@ def modify():
             phone=dict.get("phone",0)
             sql="update student_view set studentId='%s',name='%s',departments='%s',major='%s',address='%s',phone='%s' where studentId='%s';"%(id,name,departments,major,address,phone,id)   
             print(sql)
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
             cursor=conn.cursor()
             cursor.execute(sql)
             conn.commit()
@@ -165,7 +165,7 @@ def register():
         sql_id="SELECT name FROM user WHERE studentId='%s';"%(id)#从库里查名
         sql_identity="SELECT identity FROM user WHERE studentId='%s';"%(id)
         
-        conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+        conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
         cursor=conn.cursor()
         sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)#检测密码是否存在
         cursor.execute(sql_check)
@@ -173,7 +173,7 @@ def register():
         cursor.close()
         conn.close()
        
-        conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+        conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
         cursor=conn.cursor()
         cursor.execute(sql_id)
         name=cursor.fetchone()[0]#查询是否有此人
@@ -188,14 +188,14 @@ def register():
             res.headers["Access-Control-Allow-Headers"]="Authorization"
             return res
         elif name!=None and password==None:##校验没问题,予以注册成功
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
             cursor=conn.cursor()
             cursor.execute(sql_exe)
             conn.commit()    
             cursor.close()
             conn.close()
 #######下面要取得他的身份
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
             cursor=conn.cursor()
             cursor.execute(sql_identity)
             identity=cursor.fetchone()[0]
@@ -229,7 +229,7 @@ def login():
     id=dict.get("studentId")#得到请求中的学号
     password=dict.get("password")#得到请求中的密码
  ##获取到密码,检查密码是否正确  
-    conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+    conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
     cursor=conn.cursor()
     sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)#检测密码是否存在
     cursor.execute(sql_check)
@@ -242,7 +242,7 @@ def login():
         password_sql=password_sql[0]
         if password_sql==password:##密码正确且用户存在
         #####获取身份 
-            conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
             cursor=conn.cursor()
             sql_identity="SELECT identity FROM user WHERE studentId='%s';"%(id)
             cursor.execute(sql_identity)

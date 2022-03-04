@@ -14,3 +14,17 @@ password = xfMr9uNCKXGAT9au
 conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
 conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="root",charset="utf8",db="studentall")
 conn=pymysql.connect(host="127.0.0.1", port=3306,user="root",passwd="hua114514",charset="utf8",db="studentall")
+conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
+
+
+
+[client]
+host     = localhost
+user     = debian-sys-maint
+password = MOJwpvJptmfrXg3Z
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = debian-sys-maint
+password = MOJwpvJptmfrXg3Z
+socket   = /var/run/mysqld/mysqld.sock
