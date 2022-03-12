@@ -1,4 +1,5 @@
 #!/usr/bin/python3.8
+from logging import exception
 from flask import Flask, request ,make_response
 import pymysql
 from flask_cors import CORS
@@ -11,21 +12,23 @@ jwt_all=jwt212.jwt212
 
 
 def check_token(token):
-    data=jwt_all.token_query(token)#获取token中的payload
-    id=data.get("studentId")
-    sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)
+    if token!=None:    
+        data=jwt_all.token_query(token)#获取token中的payload
+        id=data.get("studentId")
+        sql_check="SELECT password FROM user WHERE studentId='%s';"%(id)
    
-    conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
-    cursor=conn.cursor()
-    cursor.execute(sql_check)
-    password=cursor.fetchone()[0]##获取到密码
-    cursor.close()
-    conn.close()
-    if jwt_all.token_check(token,password)==True and data.get("identity")=="admin":##确保签名正确且权限为admin
-        return True
+        conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
+        cursor=conn.cursor()
+        cursor.execute(sql_check)
+        password=cursor.fetchone()[0]##获取到密码
+        cursor.close()
+        conn.close()
+        if jwt_all.token_check(token,password)==True and data.get("identity")=="admin":##确保签名正确且权限为admin
+            return True
+        else:
+            return False
     else:
         return False
-
 
 
 
@@ -47,7 +50,7 @@ def delete(student_Id):
                 return {"code": 200, "data": None, "message": "成功" },200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
         except Exception as e:
             print(e)
-            return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+            return {"code":400, "data":None,"message":"请求失败"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
     ###########################################################################################################
     else:
         return {"code":401,"data":None,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
@@ -80,7 +83,7 @@ def query():
                 return res
             except Exception as e:
                 print(e)
-                return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+                return {"code":400, "data":None,"message":"请求失败"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
  ######################################################################################################################   
     else:
         return {"code":401,"data":None,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
@@ -109,7 +112,7 @@ def all():
 
         except Exception as e:
             print(e)
-            return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+            return {"code":400, "data":None,"message":"请求失败"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 ##################################################################################################################
     else:
         return {"code":401,"data":None,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
@@ -149,7 +152,7 @@ def modify():
             return  res
         except Exception as e:
             print(e)
-            return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+            return {"code":400, "data":None,"message":"请求失败"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 #################################################################################################################
     else:
         return {"code":401,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
@@ -219,7 +222,7 @@ def register():
 
     except Exception as e:
             print(e)
-            return {"code":400, "data":None,"message":"请求失败"},400,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+            return {"code":400, "data":None,"message":"请求失败"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
 
 
@@ -263,8 +266,30 @@ def login():
         else:
             return {"code":1005, "data":None,"message":"密码错误或用户不存在"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
 
-
-
+@app.route("/user/avatar",methods=["post"])
+def avatar():
+#########################################################################################    
+    token=request.headers.get('Authorization')#获取请求头中的token  
+    if check_token(token)==True : 
+############################################################################################   
+        try:
+            dict=request.get_json()
+            id=dict.get("studentId")
+            qq=dict.get("qq")
+            new_avatar="https://q1.qlogo.cn/g?b=qq&nk=%s&s=100"%(qq)
+            sql="update student_view set avatar='%s' where studentId='%s';"%(new_avatar,id)
+            conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")  
+            cursor=conn.cursor()
+            cursor.execute(sql)
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return {"code":200,"data":None,"message":"success"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        except exception as e:
+            print(e)
+            return {"code":400, "data":None,"message":"请求失败"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+    else:
+        return {"code":401,"data":None,"message":"Not enough clearance"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
   
 if __name__=="__main__":
     app.run(host="0.0.0.0")
