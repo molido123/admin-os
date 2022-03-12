@@ -237,7 +237,7 @@ def login():
     cursor.close()
     conn.close()
     if password_sql==None:
-        return {"code":1005, "data":None,"message":"密码错误或用户不存在"},1005,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
+        return {"code":1005, "data":None,"message":"密码错误或用户不存在"},200,[("Access-Control-Allow-Origin","*"),("Access-Control-Allow-Headers","Authorization")]
     elif password_sql!=None:
         password_sql=password_sql[0]
         if password_sql==password:##密码正确且用户存在
@@ -267,4 +267,4 @@ def login():
 
   
 if __name__=="__main__":
-    app.run(host="0.0.0.0",port=443)
+    app.run(host="0.0.0.0")
