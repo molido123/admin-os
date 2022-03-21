@@ -1,7 +1,7 @@
 #!/usr/bin/python3.8
 import pymysql
 
-conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="MOJwpvJptmfrXg3Z",charset="utf8",db="studentall")
+conn=pymysql.connect(host="127.0.0.1", port=3306,user="debian-sys-maint",passwd="xfMr9uNCKXGAT9au",charset="utf8",db="studentall")
 cursor=conn.cursor()
 
 
