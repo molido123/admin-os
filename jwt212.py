@@ -76,7 +76,6 @@ class jwt212:
             data = json.loads(payload_data)  # 将已编码的JSON字符串解码为Python对象，即将payload转为可以通过get方法获取里面的值
             return data  # 返回payload的数据
 
-
-
-
+token="Bearer eyJ0eXAiOiJ0b2tlbiIsImV4cCI6MTY0Nzg2OTk2N30.eyJzdHVkZW50SWQiOiIwMjIxMDYyMSIsImlkZW50aXR5IjoiYWRtaW4ifQ.hfZK_0q4wdbQdtd1dYDHfr5S4KB6w-r_tkYGN2cT6W8"
+print(jwt212.token_check(token,"114514"))
  
